@@ -1,5 +1,6 @@
 package com.javasampleapproach.jpa.one2many.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,7 +24,7 @@ public class Company {
     private String name;
     
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Product> products;
+    private List<Product> products;
     
     public Company(){
     }
@@ -42,11 +43,11 @@ public class Company {
     }
     
     // products
-    public void setProducts(Set<Product> products){
+    public void setProducts(List<Product> products){
     	this.products = products;
     }
     
-    public Set<Product> getProducts(){
+    public List<Product> getProducts(){
     	return this.products;
     }
     

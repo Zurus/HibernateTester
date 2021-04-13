@@ -1,5 +1,6 @@
 package com.javasampleapproach.jpa.one2many;
  
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -54,41 +55,56 @@ public class SpringJpaOneToManyRelationshipApplication implements CommandLineRun
     @Transactional
     private void clearData(){
     	companyRepository.deleteAll();
-        productRepository.deleteAll();
+        //productRepository.deleteAll();
     }
     
     @Transactional
     private void saveData(){
-    	saveDataWithApproach1();
+        cascadeSave();
     }
     
     /**
      * Save Company objects that include Product list
      */
-    private void saveDataWithApproach1(){
+
+    private void cascadeSave() {
         Company apple = new Company("Apple");
-        Company samsung = new Company("Samsung");
-        
+
         Product iphone7 = new Product("Iphone 7", apple);
         Product iPadPro = new Product("IPadPro", apple);
-        
-        Product galaxyJ7 = new Product("GalaxyJ7", samsung);
-        Product galaxyTabA = new Product("GalaxyTabA", samsung);
-        
-        apple.setProducts(new HashSet<Product>(){{
+
+        apple.setProducts(new ArrayList<>(){{
             add(iphone7);
             add(iPadPro);
         }});
-        
-        samsung.setProducts(new HashSet<Product>(){{
-            add(galaxyJ7);
-            add(galaxyTabA);
-        }});
-        
-        // save companies
+
         companyRepository.save(apple);
-        companyRepository.save(samsung);
     }
+
+//    private void saveDataWithApproach1(){
+//        Company apple = new Company("Apple");
+//        Company samsung = new Company("Samsung");
+//
+//        Product iphone7 = new Product("Iphone 7", apple);
+//        Product iPadPro = new Product("IPadPro", apple);
+//
+//        Product galaxyJ7 = new Product("GalaxyJ7", samsung);
+//        Product galaxyTabA = new Product("GalaxyTabA", samsung);
+//
+//        apple.setProducts(new HashSet<Product>(){{
+//            add(iphone7);
+//            add(iPadPro);
+//        }});
+//
+//        samsung.setProducts(new HashSet<Product>(){{
+//            add(galaxyJ7);
+//            add(galaxyTabA);
+//        }});
+//
+//        // save companies
+//        companyRepository.save(apple);
+//        companyRepository.save(samsung);
+//    }
     
     
     /**
