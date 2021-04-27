@@ -21,7 +21,7 @@ public class Product {
 	private int id;
     private String name;
     
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "company_id")
     private Company company;
     

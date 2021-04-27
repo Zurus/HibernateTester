@@ -48,6 +48,8 @@ public class SpringJpaOneToManyRelationshipApplication implements CommandLineRun
                 clearData();
             } else if (command.equalsIgnoreCase(Static.SAVE_COMMAND)) {
                 saveData();
+            } else if (command.equalsIgnoreCase(Static.TEST)) {
+                testLazyInitialization();
             }
         }
     }
@@ -67,8 +69,15 @@ public class SpringJpaOneToManyRelationshipApplication implements CommandLineRun
      * Save Company objects that include Product list
      */
 
+    private void testLazyInitialization() {
+        Company company = companyRepository.findAll().stream().findFirst().orElse(null);
+        System.out.println("Company");
+        System.out.println(company.toString());
+        company.getProducts().forEach(System.out::println);
+    }
+
     private void cascadeSave() {
-        Company apple = new Company("Apple");
+        Company apple = new Company("Android");
 
         Product iphone7 = new Product("Iphone 7", apple);
         Product iPadPro = new Product("IPadPro", apple);
@@ -105,7 +114,7 @@ public class SpringJpaOneToManyRelationshipApplication implements CommandLineRun
 //        companyRepository.save(apple);
 //        companyRepository.save(samsung);
 //    }
-    
+
     
     /**
      * Save company first (not include product list). Then saving products which had attached a company for each.  
