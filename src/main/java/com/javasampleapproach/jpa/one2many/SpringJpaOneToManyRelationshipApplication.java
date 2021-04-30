@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import com.javasampleapproach.jpa.one2many.karaulova.Static;
@@ -27,6 +28,9 @@ public class SpringJpaOneToManyRelationshipApplication implements CommandLineRun
      
     @Autowired
     ProductRepository productRepository;
+
+//    @Autowired
+//    EntityManager em;
  
     public static void main(String[] args) {
     	SpringApplication.run(SpringJpaOneToManyRelationshipApplication.class, args);
@@ -50,6 +54,8 @@ public class SpringJpaOneToManyRelationshipApplication implements CommandLineRun
                 saveData();
             } else if (command.equalsIgnoreCase(Static.TEST)) {
                 testLazyInitialization();
+            } else if (command.equalsIgnoreCase(Static.UPDATE)) {
+                update();
             }
         }
     }
@@ -76,15 +82,26 @@ public class SpringJpaOneToManyRelationshipApplication implements CommandLineRun
         company.getProducts().forEach(System.out::println);
     }
 
+    private void update() {
+        List<Company> companyLst = companyRepository.findAll();
+        Company company = companyLst.get(0);
+        List<Product> products = company.getProducts();
+        products.remove(0);
+        company.setProducts(products);
+        companyRepository.save(company);
+    }
+
     private void cascadeSave() {
         Company apple = new Company("Android");
 
         Product iphone7 = new Product("Iphone 7", apple);
         Product iPadPro = new Product("IPadPro", apple);
+        Product iMac = new Product("iMac", apple);
 
         apple.setProducts(new ArrayList<>(){{
             add(iphone7);
             add(iPadPro);
+            add(iMac);
         }});
 
         companyRepository.save(apple);
@@ -151,14 +168,16 @@ public class SpringJpaOneToManyRelationshipApplication implements CommandLineRun
     @Transactional
     private void showData(){
     	// get All data
-    	List<Company> companyLst = companyRepository.findAll();
         List<Product> productLst = productRepository.findAll();
-         
-        System.out.println("===================Product List:==================");
-        productLst.forEach(System.out::println);
-         
+        List<Company> companyLst = companyRepository.findAll();
+
         System.out.println("===================Company List:==================");
         companyLst.forEach(System.out::println);
+
+        //List<Product> products = productRepository.findAll();//findAllByCompanyId(10);
+
+        System.out.println("===================Product List:==================");
+        productLst.forEach(System.out::println);
     }
     
 }

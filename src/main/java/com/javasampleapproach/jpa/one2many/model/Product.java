@@ -57,9 +57,9 @@ public class Product {
         JSONObject jsonInfo = new JSONObject();
         jsonInfo.put("name",this.name);
         
-        JSONObject companyObj = new JSONObject();
-        companyObj.put("name", this.company.getName());
-        jsonInfo.put("company", companyObj);
+//        JSONObject companyObj = new JSONObject();
+//        companyObj.put("name", this.company.getName());
+//        jsonInfo.put("company", companyObj);
         
         info = jsonInfo.toString();
         return info;
